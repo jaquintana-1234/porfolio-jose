@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Porfolio Profesional - [Tu Nombre]</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0f9ff',
+              100: '#e0f2fe',
+              500: '#0ea5e9',
+              600: '#0284c7',
+              700: '#0369a1',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* Glassmorphism Styles */
+    .glass {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+    .dark .glass {
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 5px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #0ea5e9;
+    }
+
+    /* Typewriter Cursor */
+    .typing-cursor::after {
+      content: '|';
+      animation: blink 0.8s infinite;
+      color: #0ea5e9;
+      margin-left: 2px;
+      font-weight: bold;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    /* Print Styles for CV Download */
+    @media print {
+      body {
+        background: white !important;
+        color: black !important;
+      }
+      .no-print, nav, #editor-drawer, #toast-container, .print-hidden {
+        display: none !important;
+      }
+      .print-page {
+        padding: 0 !important;
+        margin: 0 !important;
+        box-shadow: none !important;
+      }
+      .glass {
+        background: white !important;
+        border: 1px solid #ccc !important;
+      }
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-100 font-sans transition-colors duration-300 min-h-screen flex flex-col justify-between selection:bg-brand-500 selection:text-white">
+
+  <!-- Floating Live Editor Button -->
+  <button id="open-editor-btn" title="Personalizar Porfolio en Vivo" class="no-print fixed bottom-6 left-6 z-40 bg-brand-600 hover:bg-brand-700 text-white p-3.5 rounded-full shadow-2xl transition-all duration-300 transform hover:scale-110 flex items-center justify-center gap-2 group">
+    <i class="fa-solid fa-pen-to-square text-lg"></i>
+    <span class="max-w-0 overflow-hidden whitespace-nowrap group-hover:max-w-xs transition-all duration-300 ease-in-out text-sm font-semibold pr-1">Editar Datos</span>
+  </button>
+
+  <!-- Drawer for Live Customization -->
+  <div id="editor-drawer" class="no-print fixed inset-y-0 left-0 w-80 max-w-full bg-white dark:bg-slate-800 shadow-2xl z-50 transform -translate-x-full transition-transform duration-300 ease-in-out overflow-y-auto p-6 border-r border-slate-200 dark:border-slate-700">
+    <div class="flex items-center justify-between pb-4 border-b border-slate-200 dark:border-slate-700 mb-6">
+      <h3 class="text-lg font-bold flex items-center gap-2 text-brand-600 dark:text-brand-500">
+        <i class="fa-solid fa-sliders"></i> Editor Rápido
+      </h3>
+      <button id="close-editor-btn" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1">
+        <i class="fa-solid fa-xmark text-xl"></i>
+      </button>
+    </div>
+
+    <form id="live-editor-form" class="space-y-4">
+      <div>
+        <label class="block text-xs font-semibold uppercase text-slate-500 dark:text-slate-400 mb-1">Tu Nombre</label>
+        <input type="text" id="edit-name" class="w-full text-sm p-2 rounded bg-slate-100 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 focus:outline-none focus:ring-2 focus:ring-brand-500">
+      </div>
+      <div>
+        <label class="block text-xs font-semibold uppercase text-slate-500 dark:text-slate-400 mb-1">Título / Rol Principal</label>
+        <input type="text" id="edit-role" class="w-full text-sm p-2 rounded bg-slate-100 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 focus:outline-none focus:ring-2 focus:ring-brand-500">
+      </div>
+      <div>
+        <label class="block text-xs font-semibold uppercase text-slate-500 dark:text-slate-400 mb-1">Resumen Biográfico</label>
+        <textarea id="edit-bio" rows="3" class="w-full text-sm p-2 rounded bg-slate-100 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 focus:outline-none focus:ring-2 focus:ring-brand-500"></textarea>
+      </div>
+      <div>
+        <label class="block text-xs font-semibold uppercase text-slate-500 dark:text-slate-400 mb-1">Correo Electrónico</label>
+        <input type="email" id="edit-email" class="w-full text-sm p-2 rounded bg-slate-100 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 focus:outline-none focus:ring-2 focus:ring-brand-500">
+      </div>
+      <div>
+        <label class="block text-xs font-semibold uppercase text-slate-500 dark:text-slate-400 mb-1">Ubicación</label>
+        <input type="text" id="edit-location" class="w-full text-sm p-2 rounded bg-slate-100 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 focus:outline-none focus:ring-2 focus:ring-brand-500">
+      </div>
+      
+      <div class="pt-4 flex gap-2">
+        <button type="button" id="reset-editor-btn" class="w-1/2 py-2 text-xs font-bold text-slate-600 dark:text-slate-300 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 rounded transition">
+          Restablecer
+        </button>
+        <button type="submit" class="w-1/2 py-2 text-xs font-bold text-white bg-brand-600 hover:bg-brand-700 rounded transition shadow">
+          Guardar
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Navigation Header -->
+  <header class="no-print sticky top-0 z-30 glass transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      <a href="#hero" class="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white flex items-center gap-2">
+        <span class="bg-brand-600 text-white w-9 h-9 rounded-lg flex items-center justify-center font-bold text-lg shadow-md" id="nav-avatar-initials">AC</span>
+        <span id="nav-brand-name">Alex Cruz</span>
+      </a>
+
+      <!-- Desktop Links -->
+      <nav class="hidden md:flex items-center space-x-8 text-sm font-medium">
+        <a href="#sobre-mi" class="nav-link hover:text-brand-500 transition-colors">Sobre Mí</a>
+        <a href="#habilidades" class="nav-link hover:text-brand-500 transition-colors">Habilidades</a>
+        <a href="#experiencia" class="nav-link hover:text-brand-500 transition-colors">Experiencia</a>
+        <a href="#proyectos" class="nav-link hover:text-brand-500 transition-colors">Proyectos</a>
+        <a href="#contacto" class="nav-link hover:text-brand-500 transition-colors">Contacto</a>
+      </nav>
+
+      <!-- Right Controls -->
+      <div class="flex items-center space-x-4">
+        <!-- Theme Switcher Button -->
+        <button id="theme-toggle" aria-label="Cambiar tema" class="p-2.5 rounded-xl bg-slate-200/80 dark:bg-slate-800 text-slate-700 dark:text-amber-400 hover:ring-2 hover:ring-brand-500 transition">
+          <i id="theme-toggle-dark-icon" class="fa-solid fa-moon text-lg hidden"></i>
+          <i id="theme-toggle-light-icon" class="fa-solid fa-sun text-lg hidden"></i>
+        </button>
+
+        <!-- Print/CV CTA -->
+        <button onclick="window.print()" class="hidden sm:inline-flex items-center gap-2 bg-brand-600 hover:bg-brand-700 text-white px-4 py-2 rounded-xl text-sm font-semibold shadow-md transition transform active:scale-95">
+          <i class="fa-solid fa-file-arrow-down"></i> Impreso / CV
+        </button>
+
+        <!-- Mobile Menu Toggle Button -->
+        <button id="mobile-menu-btn" class="md:hidden p-2 text-slate-600 dark:text-slate-300 focus:outline-none">
+          <i class="fa-solid fa-bars text-2xl"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Dropdown Menu -->
+    <div id="mobile-menu" class="hidden md:hidden glass border-t border-slate-200 dark:border-slate-800 px-4 pt-2 pb-6 space-y-3">
+      <a href="#sobre-mi" class="mobile-nav-link block py-2 px-3 rounded-lg text-slate-700 dark:text-slate-200 hover:bg-brand-500/10 font-medium">Sobre Mí</a>
+      <a href="#habilidades" class="mobile-nav-link block py-2 px-3 rounded-lg text-slate-700 dark:text-slate-200 hover:bg-brand-500/10 font-medium">Habilidades</a>
+      <a href="#experiencia" class="mobile-nav-link block py-2 px-3 rounded-lg text-slate-700 dark:text-slate-200 hover:bg-brand-500/10 font-medium">Experiencia</a>
+      <a href="#proyectos" class="mobile-nav-link block py-2 px-3 rounded-lg text-slate-700 dark:text-slate-200 hover:bg-brand-500/10 font-medium">Proyectos</a>
+      <a href="#contacto" class="mobile-nav-link block py-2 px-3 rounded-lg text-slate-700 dark:text-slate-200 hover:bg-brand-500/10 font-medium">Contacto</a>
+      <button onclick="window.print()" class="w-full flex items-center justify-center gap-2 bg-brand-600 hover:bg-brand-700 text-white py-2.5 rounded-lg font-semibold text-sm">
+        <i class="fa-solid fa-file-arrow-down"></i> Descargar / Imprimir CV
+      </button>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-24 py-12">
+
+    <!-- Hero Section -->
+    <section id="hero" class="min-h-[75vh] flex flex-col lg:flex-row items-center justify-between gap-12 pt-8">
+      <div class="flex-1 space-y-6 text-center lg:text-left">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-500/10 text-brand-600 dark:text-brand-400 text-xs font-semibold tracking-wide uppercase border border-brand-500/20">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+          <span>Disponible para proyectos y contrataciones</span>
+        </div>
+        
+        <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight leading-tight">
+          ¡Hola! Soy <span id="hero-display-name" class="text-transparent bg-clip-text bg-gradient-to-r from-brand-500 to-indigo-600 dark:from-brand-400 dark:to-indigo-400">Alex Cruz</span>
+        </h1>
+
+        <div class="text-xl sm:text-2xl font-medium text-slate-600 dark:text-slate-300 min-h-[2.5rem] flex items-center justify-center lg:justify-start">
+          <span class="mr-2">Especialista en:</span>
+          <span id="typewriter" class="text-brand-600 dark:text-brand-400 font-bold typing-cursor"></span>
+        </div>
+
+        <p id="hero-display-bio" class="text-slate-600 dark:text-slate-400 max-w-2xl text-base sm:text-lg leading-relaxed mx-auto lg:mx-0">
+          Desarrollador enfocado en construir experiencias digitales escalables, limpias y centradas en el usuario. Apasionado por transformar ideas complejas en código eficiente.
+        </p>
+
+        <!-- CTAs & Social Links -->
+        <div class="pt-4 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+          <a href="#proyectos" class="w-full sm:w-auto px-8 py-3.5 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl shadow-lg hover:shadow-brand-500/25 transition transform hover:-translate-y-0.5 text-center">
+            Ver Proyectos <i class="fa-solid fa-arrow-right ml-2 text-sm"></i>
+          </a>
+          <a href="#contacto" class="w-full sm:w-auto px-8 py-3.5 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 font-bold rounded-xl transition text-center">
+            Contactar
+          </a>
+        </div>
+
+        <div class="pt-6 flex items-center justify-center lg:justify-start space-x-5 text-xl text-slate-500 dark:text-slate-400">
+          <a href="https://github.com" target="_blank" rel="noopener" aria-label="GitHub" class="hover:text-brand-500 transition-colors transform hover:scale-110"><i class="fa-brands fa-github"></i></a>
+          <a href="https://linkedin.com" target="_blank" rel="noopener" aria-label="LinkedIn" class="hover:text-brand-500 transition-colors transform hover:scale-110"><i class="fa-brands fa-linkedin"></i></a>
+          <a href="https://twitter.com" target="_blank" rel="noopener" aria-label="Twitter" class="hover:text-brand-500 transition-colors transform hover:scale-110"><i class="fa-brands fa-x-twitter"></i></a>
+          <a href="mailto:alex.cruz@ejemplo.com" aria-label="Email" class="hover:text-brand-500 transition-colors transform hover:scale-110"><i class="fa-solid fa-envelope"></i></a>
+        </div>
+      </div>
+
+      <!-- Avatar Preview -->
+      <div class="flex-1 flex justify-center items-center relative">
+        <div class="relative w-64 h-64 sm:w-80 sm:h-80 rounded-full bg-gradient-to-tr from-brand-500 to-indigo-600 p-1.5 shadow-2xl animate-pulse-slow">
+          <div class="w-full h-full bg-slate-100 dark:bg-slate-900 rounded-full flex flex-col items-center justify-center overflow-hidden relative group">
+            <i class="fa-solid fa-user-astronaut text-8xl text-brand-500 dark:text-brand-400 group-hover:scale-110 transition duration-500"></i>
+            <span class="mt-4 text-xs font-mono uppercase tracking-widest text-slate-400" id="avatar-label">Innovación & Código</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section & Metrics -->
+    <section id="sobre-mi" class="scroll-mt-28 space-y-12">
+      <div class="text-center max-w-3xl mx-auto space-y-3">
+        <h2 class="text-xs font-extrabold tracking-widest text-brand-500 uppercase">Perfil Profesional</h2>
+        <p class="text-3xl font-extrabold sm:text-4xl">Sobre Mí & Filosofía de Trabajo</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-8 items-stretch">
+        <div class="glass p-8 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-4">
+          <h3 class="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+            <i class="fa-solid fa-bullseye text-brand-500"></i> Mi Enfoque
+          </h3>
+          <p class="text-slate-600 dark:text-slate-300 leading-relaxed">
+            Me dedico a diseñar y desarrollar productos digitales que no solo funcionen perfectamente bajo el capó, sino que también aporten valor real a las personas. Creo firmemente en escribir código estructurado, accesible y fácilmente mantenible.
+          </p>
+          <p class="text-slate-600 dark:text-slate-300 leading-relaxed">
+            Mi constante curiosidad me impulsa a explorar continuamente nuevas librerías, metodologías ágiles y mejores prácticas de arquitectura frontend/backend.
+          </p>
+        </div>
+
+        <!-- Metrics Counters Grid -->
+        <div class="grid grid-cols-2 gap-4">
+          <div class="glass p-6 rounded-2xl flex flex-col justify-center items-center text-center">
+            <span class="text-4xl font-extrabold text-brand-600 dark:text-brand-400" data-counter="5">0</span>
+            <span class="text-sm font-semibold text-slate-500 dark:text-slate-400 mt-2">Años de Experiencia</span>
+          </div>
+          <div class="glass p-6 rounded-2xl flex flex-col justify-center items-center text-center">
+            <span class="text-4xl font-extrabold text-indigo-600 dark:text-indigo-400" data-counter="32">0</span>
+            <span class="text-sm font-semibold text-slate-500 dark:text-slate-400 mt-2">Proyectos Completados</span>
+          </div>
+          <div class="glass p-6 rounded-2xl flex flex-col justify-center items-center text-center">
+            <span class="text-4xl font-extrabold text-emerald-600 dark:text-emerald-400" data-counter="18">0</span>
+            <span class="text-sm font-semibold text-slate-500 dark:text-slate-400 mt-2">Clientes Satisfechos</span>
+          </div>
+          <div class="glass p-6 rounded-2xl flex flex-col justify-center items-center text-center">
+            <span class="text-4xl font-extrabold text-amber-500" data-counter="99">0</span>
+            <span class="text-sm font-semibold text-slate-500 dark:text-slate-400 mt-2">% Código Probado</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="habilidades" class="scroll-mt-28 space-y-12">
+      <div class="text-center max-w-3xl mx-auto space-y-3">
+        <h2 class="text-xs font-extrabold tracking-widest text-brand-500 uppercase">Capacidades Técnicas</h2>
+        <p class="text-3xl font-extrabold sm:text-4xl">Habilidades & Tecnologías</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-8">
+        <!-- Technical Progress Bars -->
+        <div class="glass p-8 rounded-2xl space-y-6">
+          <h3 class="text-lg font-bold flex items-center gap-2 text-slate-900 dark:text-white">
+            <i class="fa-solid fa-code text-brand-500"></i> Desarrollo Frontend & Backend
+          </h3>
+
+          <div class="space-y-4">
+            <div>
+              <div class="flex justify-between text-sm font-semibold mb-1">
+                <span>HTML5 / CSS3 / Tailwind CSS</span>
+                <span class="text-brand-500">95%</span>
+              </div>
+              <div class="w-full h-2.5 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                <div class="skill-bar h-full bg-brand-500 rounded-full transition-all duration-1000" style="width: 0%" data-width="95%"></div>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-sm font-semibold mb-1">
+                <span>JavaScript (ES6+) / TypeScript</span>
+                <span class="text-brand-500">90%</span>
+              </div>
+              <div class="w-full h-2.5 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                <div class="skill-bar h-full bg-brand-500 rounded-full transition-all duration-1000" style="width: 0%" data-width="90%"></div>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-sm font-semibold mb-1">
+                <span>React.js / Next.js</span>
+                <span class="text-brand-500">85%</span>
+              </div>
+              <div class="w-full h-2.5 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                <div class="skill-bar h-full bg-brand-500 rounded-full transition-all duration-1000" style="width: 0%" data-width="85%"></div>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-sm font-semibold mb-1">
+                <span>Node.js / Express / APIs REST</span>
+                <span class="text-brand-500">80%</span>
+              </div>
+              <div class="w-full h-2.5 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                <div class="skill-bar h-full bg-brand-500 rounded-full transition-all duration-1000" style="width: 0%" data-width="80%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Complementary Skills & Tools -->
+        <div class="glass p-8 rounded-2xl space-y-6">
+          <h3 class="text-lg font-bold flex items-center gap-2 text-slate-900 dark:text-white">
+            <i class="fa-solid fa-screwdriver-wrench text-brand-500"></i> Herramientas & Metodologías
+          </h3>
+
+          <div class="flex flex-wrap gap-2.5">
+            <span class="px-3 py-2 rounded-xl bg-slate-200/80 dark:bg-slate-800 text-sm font-medium hover:border-brand-500 border border-transparent transition flex items-center gap-2">
+              <i class="fa-brands fa-git-alt text-orange-500"></i> Git / GitHub
+            </span>
+            <span class="px-3 py-2 rounded-xl bg-slate-200/80 dark:bg-slate-800 text-sm font-medium hover:border-brand-500 border border-transparent transition flex items-center gap-2">
+              <i class="fa-brands fa-figma text-purple-500"></i> Figma UI/UX
+            </span>
+            <span class="px-3 py-2 rounded-xl bg-slate-200/80 dark:bg-slate-800 text-sm font-medium hover:border-brand-500 border border-transparent transition flex items-center gap-2">
+              <i class="fa-brands fa-docker text-blue-500"></i> Docker Básicos
+            </span>
+            <span class="px-3 py-2 rounded-xl bg-slate-200/80 dark:bg-slate-800 text-sm font-medium hover:border-brand-500 border border-transparent transition flex items-center gap-2">
+              <i class="fa-solid fa-database text-emerald-500"></i> MongoDB / PostgreSQL
+            </span>
+            <span class="px-3 py-2 rounded-xl bg-slate-200/80 dark:bg-slate-800 text-sm font-medium hover:border-brand-500 border border-transparent transition flex items-center gap-2">
+              <i class="fa-solid fa-bolt text-amber-500"></i> Metodología Agile / Scrum
+            </span>
+            <span class="px-3 py-2 rounded-xl bg-slate-200/80 dark:bg-slate-800 text-sm font-medium hover:border-brand-500 border border-transparent transition flex items-center gap-2">
+              <i class="fa-solid fa-vial text-pink-500"></i> Testing (Jest)
+            </span>
+          </div>
+
+          <div class="pt-4 border-t border-slate-200 dark:border-slate-800 space-y-3">
+            <h4 class="text-sm font-bold uppercase tracking-wider text-slate-400">Soft Skills</h4>
+            <div class="flex flex-wrap gap-2">
+              <span class="px-3 py-1 rounded-full text-xs font-semibold bg-brand-500/10 text-brand-600 dark:text-brand-400">Trabajo en Equipo</span>
+              <span class="px-3 py-1 rounded-full text-xs font-semibold bg-indigo-500/10 text-indigo-600 dark:text-indigo-400">Comunicación Asertiva</span>
+              <span class="px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">Resolución de Problemas</span>
+              <span class="px-3 py-1 rounded-full text-xs font-semibold bg-amber-500/10 text-amber-600 dark:text-amber-400">Autonomía</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Experience Timeline Section -->
+    <section id="experiencia" class="scroll-mt-28 space-y-12">
+      <div class="text-center max-w-3xl mx-auto space-y-3">
+        <h2 class="text-xs font-extrabold tracking-widest text-brand-500 uppercase">Trayectoria</h2>
+        <p class="text-3xl font-extrabold sm:text-4xl">Experiencia Laboral</p>
+      </div>
+
+      <div class="max-w-4xl mx-auto relative border-l-2 border-brand-500/30 pl-6 ml-4 sm:ml-32 space-y-10">
+        <!-- Item 1 -->
+        <div class="relative group">
+          <!-- Timeline Icon Badge -->
+          <div class="absolute -left-[35px] top-1.5 w-6 h-6 rounded-full bg-brand-500 border-4 border-slate-50 dark:border-slate-900 group-hover:scale-125 transition"></div>
+          
+          <div class="glass p-6 rounded-2xl space-y-2 border border-slate-200 dark:border-slate-800">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+              <h3 class="text-lg font-bold text-slate-900 dark:text-white">Senior Frontend Developer</h3>
+              <span class="text-xs font-bold px-2.5 py-1 rounded-md bg-brand-500/10 text-brand-600 dark:text-brand-400 w-fit">2023 - Presente</span>
+            </div>
+            <p class="text-sm font-semibold text-slate-500 dark:text-slate-400">Tech Solutions Inc. • Jornada Completa</p>
+            <p class="text-sm text-slate-600 dark:text-slate-300 pt-2">
+              Liderazgo técnico de interfaces accesibles en React y Next.js. Reducción del tiempo de carga inicial en un 40% mediante optimización de recursos e implementación de diseño responsivo enfocado en rendimiento.
+            </p>
+          </div>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="relative group">
+          <div class="absolute -left-[35px] top-1.5 w-6 h-6 rounded-full bg-indigo-500 border-4 border-slate-50 dark:border-slate-900 group-hover:scale-125 transition"></div>
+          
+          <div class="glass p-6 rounded-2xl space-y-2 border border-slate-200 dark:border-slate-800">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+              <h3 class="text-lg font-bold text-slate-900 dark:text-white">Desarrollador Web Full Stack</h3>
+              <span class="text-xs font-bold px-2.5 py-1 rounded-md bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 w-fit">2021 - 2023</span>
+            </div>
+            <p class="text-sm font-semibold text-slate-500 dark:text-slate-400">Agencia Digital Innovar • Remoto</p>
+            <p class="text-sm text-slate-600 dark:text-slate-300 pt-2">
+              Desarrollo de paneles de administración y plataformas E-Commerce personalizadas integrando pasarelas de pago (Stripe) y arquitecturas API REST con Node.js y MongoDB.
+            </p>
+          </div>
+        </div>
+
+        <!-- Item 3 -->
+        <div class="relative group">
+          <div class="absolute -left-[35px] top-1.5 w-6 h-6 rounded-full bg-emerald-500 border-4 border-slate-50 dark:border-slate-900 group-hover:scale-125 transition"></div>
+          
+          <div class="glass p-6 rounded-2xl space-y-2 border border-slate-200 dark:border-slate-800">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+              <h3 class="text-lg font-bold text-slate-900 dark:text-white">Desarrollador Web Junior</h3>
+              <span class="text-xs font-bold px-2.5 py-1 rounded-md bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 w-fit">2020 - 2021</span>
+            </div>
+            <p class="text-sm font-semibold text-slate-500 dark:text-slate-400">StartUp CodeLab</p>
+            <p class="text-sm text-slate-600 dark:text-slate-300 pt-2">
+              Maquetación web responsive con HTML5, CSS3/Tailwind y JavaScript vanilla. Soporte en depuración de código y aseguramiento de compatibilidad multiplataforma.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="proyectos" class="scroll-mt-28 space-y-10">
+      <div class="text-center max-w-3xl mx-auto space-y-3">
+        <h2 class="text-xs font-extrabold tracking-widest text-brand-500 uppercase">Portafolio</h2>
+        <p class="text-3xl font-extrabold sm:text-4xl">Proyectos Destacados</p>
+      </div>
+
+      <!-- Filter Buttons -->
+      <div class="flex flex-wrap justify-center gap-2 text-sm font-semibold">
+        <button data-filter="all" class="filter-btn active-filter px-5 py-2 rounded-xl border border-brand-500 bg-brand-600 text-white shadow-md transition">Todos</button>
+        <button data-filter="web" class="filter-btn px-5 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 hover:border-brand-500 transition">Web</button>
+        <button data-filter="app" class="filter-btn px-5 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 hover:border-brand-500 transition">Apps</button>
+        <button data-filter="design" class="filter-btn px-5 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 hover:border-brand-500 transition">Diseño UI/UX</button>
+      </div>
+
+      <!-- Projects Grid -->
+      <div id="projects-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        
+        <!-- Project Card 1 -->
+        <div class="project-card group glass rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 flex flex-col justify-between transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl" data-category="web">
+          <div>
+            <div class="h-48 bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center relative overflow-hidden">
+              <i class="fa-solid fa-shop text-6xl text-white/80 group-hover:scale-110 transition duration-500"></i>
+              <span class="absolute top-3 right-3 bg-slate-900/80 text-white text-xs px-2.5 py-1 rounded-full font-mono">Web</span>
+            </div>
+            <div class="p-6 space-y-3">
+              <h3 class="text-xl font-bold">Plataforma E-Commerce SaaS</h3>
+              <p class="text-sm text-slate-600 dark:text-slate-300 line-clamp-2">
+                Tienda en línea completa con carrito reactivo, pasarela de pago Stripe y panel analítico para vendedores.
+              </p>
+              <div class="flex flex-wrap gap-1.5 pt-2">
+                <span class="text-xs px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-medium">React</span>
+                <span class="text-xs px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-medium">Node.js</span>
+                <span class="text-xs px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-medium">Tailwind</span>
+              </div>
+            </div>
+          </div>
+          <div class="p-6 pt-0">
+            <button onclick="openProjectModal('Plataforma E-Commerce SaaS', 'Tienda en línea completa con carrito reactivo, catálogo optimizado para SEO, gestión de inventario en tiempo real y panel analítico para vendedores.', ['React.js', 'Node.js', 'Express', 'Tailwind CSS', 'Stripe API'], 'https://github.com', 'https://example.com')" class="w-full py-2.5 bg-slate-200 dark:bg-slate-800 hover:bg-brand-600 hover:text-white rounded-xl text-xs font-bold transition">
+              Ver Detalles
+            </button>
+          </div>
+        </div>
+
+        <!-- Project Card 2 -->
+        <div class="project-card group glass rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 flex flex-col justify-between transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl" data-category="app">
+          <div>
+            <div class="h-48 bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center relative overflow-hidden">
+              <i class="fa-solid fa-list-check text-6xl text-white/80 group-hover:scale-110 transition duration-500"></i>
+              <span class="absolute top-3 right-3 bg-slate-900/80 text-white text-xs px-2.5 py-1 rounded-full font-mono">App</span>
+            </div>
+            <div class="p-6 space-y-3">
+              <h3 class="text-xl font-bold">TaskMaster Pro</h3>
+              <p class="text-sm text-slate-600 dark:text-slate-300 line-clamp-2">
+                Aplicación de gestión de tareas con método Kanban, recordatorios en tiempo real y sincronización en la nube.
+              </p>
+              <div class="flex flex-wrap gap-1.5 pt-2">
+                <span class="text-xs px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-medium">TypeScript</span>
+                <span class="text-xs px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-medium">Firebase</span>
+              </div>
+            </div>
+          </div>
+          <div class="p-6 pt-0">
+            <button onclick="openProjectModal('TaskMaster Pro', 'Aplicación web progresiva (PWA) orientada a la productividad en equipos ágiles. Incluye soporte offline, tableros Kanban interactivos y notificaciones push.', ['TypeScript', 'React', 'Firebase', 'Tailwind CSS'], 'https://github.com', 'https://example.com')" class="w-full py-2.5 bg-slate-200 dark:bg-slate-800 hover:bg-brand-600 hover:text-white rounded-xl text-xs font-bold transition">
+              Ver Detalles
+            </button>
+          </div>
+        </div>
+
+        <!-- Project Card 3 -->
+        <div class="project-card group glass rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 flex flex-col justify-between transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl" data-category="design">
+          <div>
+            <div class="h-48 bg-gradient-to-tr from-emerald-500 to-teal-600 flex items-center justify-center relative overflow-hidden">
+              <i class="fa-solid fa-pen-nib text-6xl text-white/80 group-hover:scale-110 transition duration-500"></i>
+              <span class="absolute top-3 right-3 bg-slate-900/80 text-white text-xs px-2.5 py-1 rounded-full font-mono">Diseño</span>
+            </div>
+            <div class="p-6 space-y-3">
+              <h3 class="text-xl font-bold">Sistema de Diseño UI FinTech</h3>
+              <p class="text-sm text-slate-600 dark:text-slate-300 line-clamp-2">
+                Kit de componentes UI en Figma enfocado en aplicaciones bancarias y gestión financiera móvil.
+              </p>
+              <div class="flex flex-wrap gap-1.5 pt-2">
+                <span class="text-xs px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-medium">Figma</span>
+                <span class="text-xs px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-medium">UI/UX</span>
+              </div>
+            </div>
+          </div>
+          <div class="p-6 pt-0">
+            <button onclick="openProjectModal('Sistema de Diseño UI FinTech', 'Guía de estilos, tokens de diseño y librería de componentes reutilizables en Figma para aplicaciones financieras, asegurando cumplimiento con estándares WCAG 2.1 AA.', ['Figma', 'Design Systems', 'User Research', 'Prototyping'], 'https://figma.com', 'https://example.com')" class="w-full py-2.5 bg-slate-200 dark:bg-slate-800 hover:bg-brand-600 hover:text-white rounded-xl text-xs font-bold transition">
+              Ver Detalles
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Modal for Project Details -->
+    <div id="project-modal" class="no-print fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300">
+      <div class="glass w-full max-w-2xl rounded-2xl overflow-hidden shadow-2xl border border-slate-200 dark:border-slate-800 transform scale-95 transition-transform duration-300 bg-white dark:bg-slate-900" id="modal-content">
+        <div class="p-6 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center">
+          <h3 id="modal-title" class="text-2xl font-bold">Título del Proyecto</h3>
+          <button onclick="closeProjectModal()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1">
+            <i class="fa-solid fa-xmark text-xl"></i>
+          </button>
+        </div>
+        <div class="p-6 space-y-4">
+          <p id="modal-description" class="text-slate-600 dark:text-slate-300 leading-relaxed">
+            Descripción detallada del proyecto...
+          </p>
+          <div>
+            <h4 class="text-sm font-bold uppercase text-slate-400 mb-2">Tecnologías Utilizadas</h4>
+            <div id="modal-tech" class="flex flex-wrap gap-2"></div>
+          </div>
+        </div>
+        <div class="p-6 border-t border-slate-200 dark:border-slate-800 flex justify-end gap-3 bg-slate-50 dark:bg-slate-800/50">
+          <a id="modal-repo-link" href="#" target="_blank" rel="noopener" class="px-4 py-2 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 rounded-xl text-xs font-bold transition flex items-center gap-2">
+            <i class="fa-brands fa-github"></i> Repositorio
+          </a>
+          <a id="modal-demo-link" href="#" target="_blank" rel="noopener" class="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-2">
+            <i class="fa-solid fa-arrow-up-right-from-square"></i> Demo En Vivo
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contact Section -->
+    <section id="contacto" class="scroll-mt-28 space-y-12">
+      <div class="text-center max-w-3xl mx-auto space-y-3">
+        <h2 class="text-xs font-extrabold tracking-widest text-brand-500 uppercase">Conectemos</h2>
+        <p class="text-3xl font-extrabold sm:text-4xl">Ponte en Contacto</p>
+      </div>
+
+      <div class="grid lg:grid-cols-3 gap-8 items-start">
+        <!-- Contact Info Cards -->
+        <div class="space-y-4">
+          <div class="glass p-6 rounded-2xl flex items-center gap-4">
+            <div class="w-12 h-12 rounded-xl bg-brand-500/10 text-brand-500 flex items-center justify-center text-xl shrink-0">
+              <i class="fa-solid fa-envelope"></i>
+            </div>
+            <div>
+              <h4 class="text-xs font-bold text-slate-400 uppercase">Email</h4>
+              <p id="contact-display-email" class="font-semibold text-sm sm:text-base">alex.cruz@ejemplo.com</p>
+            </div>
+          </div>
+
+          <div class="glass p-6 rounded-2xl flex items-center gap-4">
+            <div class="w-12 h-12 rounded-xl bg-indigo-500/10 text-indigo-500 flex items-center justify-center text-xl shrink-0">
+              <i class="fa-solid fa-location-dot"></i>
+            </div>
+            <div>
+              <h4 class="text-xs font-bold text-slate-400 uppercase">Ubicación</h4>
+              <p id="contact-display-location" class="font-semibold text-sm sm:text-base">Madrid, España (Disponible Remoto)</p>
+            </div>
+          </div>
+
+          <div class="glass p-6 rounded-2xl space-y-3">
+            <h4 class="text-xs font-bold text-slate-400 uppercase">Redes Profesionales</h4>
+            <div class="flex gap-3 text-lg">
+              <a href="https://linkedin.com" target="_blank" class="w-10 h-10 rounded-lg bg-slate-200 dark:bg-slate-800 flex items-center justify-center hover:bg-brand-500 hover:text-white transition"><i class="fa-brands fa-linkedin-in"></i></a>
+              <a href="https://github.com" target="_blank" class="w-10 h-10 rounded-lg bg-slate-200 dark:bg-slate-800 flex items-center justify-center hover:bg-brand-500 hover:text-white transition"><i class="fa-brands fa-github"></i></a>
+              <a href="https://twitter.com" target="_blank" class="w-10 h-10 rounded-lg bg-slate-200 dark:bg-slate-800 flex items-center justify-center hover:bg-brand-500 hover:text-white transition"><i class="fa-brands fa-x-twitter"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contact Form -->
+        <div class="lg:col-span-2 glass p-8 rounded-2xl border border-slate-200 dark:border-slate-800">
+          <form id="contact-form" class="space-y-6" novalidate>
+            <div class="grid sm:grid-cols-2 gap-6">
+              <div>
+                <label for="form-name" class="block text-xs font-bold uppercase text-slate-500 dark:text-slate-400 mb-2">Nombre Completo *</label>
+                <input type="text" id="form-name" required placeholder="Ej. Maria García" class="w-full p-3.5 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 focus:ring-2 focus:ring-brand-500 focus:outline-none transition text-sm">
+                <span class="text-xs text-red-500 hidden mt-1" id="error-name">Ingresa tu nombre completo.</span>
+              </div>
+              <div>
+                <label for="form-email" class="block text-xs font-bold uppercase text-slate-500 dark:text-slate-400 mb-2">Correo Electrónico *</label>
+                <input type="email" id="form-email" required placeholder="maria@ejemplo.com" class="w-full p-3.5 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 focus:ring-2 focus:ring-brand-500 focus:outline-none transition text-sm">
+                <span class="text-xs text-red-500 hidden mt-1" id="error-email">Ingresa un correo electrónico válido.</span>
+              </div>
+            </div>
+
+            <div>
+              <label for="form-subject" class="block text-xs font-bold uppercase text-slate-500 dark:text-slate-400 mb-2">Asunto</label>
+              <input type="text" id="form-subject" placeholder="Propuesta de proyecto / Consulta" class="w-full p-3.5 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 focus:ring-2 focus:ring-brand-500 focus:outline-none transition text-sm">
+            </div>
+
+            <div>
+              <label for="form-message" class="block text-xs font-bold uppercase text-slate-500 dark:text-slate-400 mb-2">Mensaje *</label>
+              <textarea id="form-message" rows="4" required placeholder="Describe tu idea o consulta..." class="w-full p-3.5 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 focus:ring-2 focus:ring-brand-500 focus:outline-none transition text-sm"></textarea>
+              <span class="text-xs text-red-500 hidden mt-1" id="error-message">Escribe tu mensaje (mínimo 10 caracteres).</span>
+            </div>
+
+            <button type="submit" id="submit-btn" class="w-full py-4 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl shadow-lg transition flex items-center justify-center gap-2">
+              <span>Enviar Mensaje</span> <i class="fa-solid fa-paper-plane text-sm"></i>
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="no-print fixed top-5 right-5 z-50 flex flex-col gap-3 pointer-events-none"></div>
+
+  <!-- Footer -->
+  <footer class="no-print border-t border-slate-200 dark:border-slate-800 mt-20 py-8 bg-slate-100/50 dark:bg-slate-900/50">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-semibold text-slate-500 dark:text-slate-400">
+      <p>&copy; <span id="year">2026</span> <span id="footer-name">Alex Cruz</span>. Todos los derechos reservados.</p>
+      <div class="flex items-center gap-4">
+        <a href="#hero" class="hover:text-brand-500 transition">Volver arriba <i class="fa-solid fa-arrow-up ml-1"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    /* User Profile Data Object & Storage Binding */
+    const defaultProfile = {
+      name: 'Alex Cruz',
+      role: 'Desarrollador Full Stack',
+      bio: 'Desarrollador enfocado en construir experiencias digitales escalables, limpias y centradas en el usuario. Apasionado por transformar ideas complejas en código eficiente.',
+      email: 'alex.cruz@ejemplo.com',
+      location: 'Madrid, España (Disponible Remoto)'
+    };
+
+    let userProfile = JSON.parse(localStorage.getItem('porfolio_profile')) || defaultProfile;
+
+    function applyProfileData() {
+      // Update DOM with profile data
+      document.getElementById('nav-brand-name').innerText = userProfile.name;
+      document.getElementById('hero-display-name').innerText = userProfile.name;
+      document.getElementById('footer-name').innerText = userProfile.name;
+      document.getElementById('hero-display-bio').innerText = userProfile.bio;
+      document.getElementById('contact-display-email').innerText = userProfile.email;
+      document.getElementById('contact-display-location').innerText = userProfile.location;
+
+      // Initials for avatar
+      const initials = userProfile.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+      document.getElementById('nav-avatar-initials').innerText = initials || 'AC';
+
+      // Populate Editor inputs
+      document.getElementById('edit-name').value = userProfile.name;
+      document.getElementById('edit-role').value = userProfile.role;
+      document.getElementById('edit-bio').value = userProfile.bio;
+      document.getElementById('edit-email').value = userProfile.email;
+      document.getElementById('edit-location').value = userProfile.location;
+    }
+
+    // Dark/Light Theme Switching
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const darkIcon = document.getElementById('theme-toggle-dark-icon');
+    const lightIcon = document.getElementById('theme-toggle-light-icon');
+
+    function initTheme() {
+      if (localStorage.getItem('theme') === 'light') {
+        document.documentElement.classList.remove('dark');
+        darkIcon.classList.remove('hidden');
+        lightIcon.classList.add('hidden');
+      } else {
+        document.documentElement.classList.add('dark');
+        lightIcon.classList.remove('hidden');
+        darkIcon.classList.add('hidden');
+      }
+    }
+
+    themeToggleBtn.addEventListener('click', () => {
+      if (document.documentElement.classList.contains('dark')) {
+        document.documentElement.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+        darkIcon.classList.remove('hidden');
+        lightIcon.classList.add('hidden');
+        showToast('Modo claro activado', 'info');
+      } else {
+        document.documentElement.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+        lightIcon.classList.remove('hidden');
+        darkIcon.classList.add('hidden');
+        showToast('Modo oscuro activado', 'info');
+      }
+    });
+
+    // Typewriter Effect
+    const phrases = [
+      "Desarrollador Web",
+      "Creador de Soluciones Digitales",
+      "Especialista en Frontend",
+      "Apasionado por la Tecnología"
+    ];
+    let phraseIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    const typewriterEl = document.getElementById('typewriter');
+
+    function typeEffect() {
+      const currentPhrase = phrases[phraseIndex];
+      
+      if (isDeleting) {
+        typewriterEl.textContent = currentPhrase.substring(0, charIndex - 1);
+        charIndex--;
+      } else {
+        typewriterEl.textContent = currentPhrase.substring(0, charIndex + 1);
+        charIndex++;
+      }
+
+      let speed = isDeleting ? 40 : 80;
+
+      if (!isDeleting && charIndex === currentPhrase.length) {
+        speed = 2000; // Pause at end
+        isDeleting = true;
+      } else if (isDeleting && charIndex === 0) {
+        isDeleting = false;
+        phraseIndex = (phraseIndex + 1) % phrases.length;
+        speed = 500;
+      }
+
+      setTimeout(typeEffect, speed);
+    }
+
+    // Gallery Filtering
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const projectCards = document.querySelectorAll('.project-card');
+
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterButtons.forEach(b => {
+          b.classList.remove('active-filter', 'bg-brand-600', 'text-white');
+          b.classList.add('bg-slate-100', 'dark:bg-slate-800');
+        });
+        btn.classList.add('active-filter', 'bg-brand-600', 'text-white');
+
+        const filter = btn.getAttribute('data-filter');
+
+        projectCards.forEach(card => {
+          if (filter === 'all' || card.getAttribute('data-category') === filter) {
+            card.style.display = 'flex';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
+
+    // Project Detail Modal
+    const modal = document.getElementById('project-modal');
+    const modalContent = document.getElementById('modal-content');
+
+    function openProjectModal(title, description, techArray, repoUrl, demoUrl) {
+      document.getElementById('modal-title').innerText = title;
+      document.getElementById('modal-description').innerText = description;
+      
+      const techContainer = document.getElementById('modal-tech');
+      techContainer.innerHTML = '';
+      techArray.forEach(tech => {
+        const badge = document.createElement('span');
+        badge.className = 'text-xs px-2.5 py-1 rounded-md bg-brand-500/10 text-brand-600 dark:text-brand-400 font-semibold';
+        badge.innerText = tech;
+        techContainer.appendChild(badge);
+      });
+
+      document.getElementById('modal-repo-link').href = repoUrl;
+      document.getElementById('modal-demo-link').href = demoUrl;
+
+      modal.classList.remove('hidden');
+      setTimeout(() => {
+        modal.classList.remove('opacity-0');
+        modalContent.classList.remove('scale-95');
+      }, 10);
+    }
+
+    function closeProjectModal() {
+      modal.classList.add('opacity-0');
+      modalContent.classList.add('scale-95');
+      setTimeout(() => {
+        modal.classList.add('hidden');
+      }, 300);
+    }
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeProjectModal();
+    });
+
+    // Toast Notification System
+    function showToast(message, type = 'success') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      
+      const bgColors = {
+        success: 'bg-emerald-600 text-white',
+        error: 'bg-red-600 text-white',
+        info: 'bg-brand-600 text-white'
+      };
+
+      toast.className = `pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-xl shadow-xl ${bgColors[type]} transform translate-y-2 opacity-0 transition-all duration-300 text-sm font-semibold`;
+      toast.innerHTML = `
+        <i class="fa-solid ${type === 'success' ? 'fa-circle-check' : type === 'error' ? 'fa-triangle-exclamation' : 'fa-circle-info'}"></i>
+        <span>${message}</span>
+      `;
+
+      container.appendChild(toast);
+
+      setTimeout(() => {
+        toast.classList.remove('translate-y-2', 'opacity-0');
+      }, 10);
+
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'translate-y-2');
+        setTimeout(() => toast.remove(), 300);
+      }, 4000);
+    }
+
+    // Contact Form Handling
+    const contactForm = document.getElementById('contact-form');
+    contactForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const name = document.getElementById('form-name').value.trim();
+      const email = document.getElementById('form-email').value.trim();
+      const message = document.getElementById('form-message').value.trim();
+
+      let isValid = true;
+
+      if (!name) {
+        document.getElementById('error-name').classList.remove('hidden');
+        isValid = false;
+      } else {
+        document.getElementById('error-name').classList.add('hidden');
+      }
+
+      if (!email || !email.includes('@')) {
+        document.getElementById('error-email').classList.remove('hidden');
+        isValid = false;
+      } else {
+        document.getElementById('error-email').classList.add('hidden');
+      }
+
+      if (!message || message.length < 10) {
+        document.getElementById('error-message').classList.remove('hidden');
+        isValid = false;
+      } else {
+        document.getElementById('error-message').classList.add('hidden');
+      }
+
+      if (isValid) {
+        const submitBtn = document.getElementById('submit-btn');
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> Enviando...`;
+
+        setTimeout(() => {
+          showToast('¡Mensaje enviado con éxito! Nos pondremos en contacto pronto.', 'success');
+          contactForm.reset();
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = `<span>Enviar Mensaje</span> <i class="fa-solid fa-paper-plane text-sm"></i>`;
+        }, 1200);
+      } else {
+        showToast('Por favor, corrige los errores del formulario.', 'error');
+      }
+    });
+
+    // Live Customization Drawer Handling
+    const editorDrawer = document.getElementById('editor-drawer');
+    const openEditorBtn = document.getElementById('open-editor-btn');
+    const closeEditorBtn = document.getElementById('close-editor-btn');
+    const liveForm = document.getElementById('live-editor-form');
+    const resetEditorBtn = document.getElementById('reset-editor-btn');
+
+    openEditorBtn.addEventListener('click', () => {
+      editorDrawer.classList.remove('-translate-x-full');
+    });
+
+    closeEditorBtn.addEventListener('click', () => {
+      editorDrawer.classList.add('-translate-x-full');
+    });
+
+    liveForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      userProfile = {
+        name: document.getElementById('edit-name').value,
+        role: document.getElementById('edit-role').value,
+        bio: document.getElementById('edit-bio').value,
+        email: document.getElementById('edit-email').value,
+        location: document.getElementById('edit-location').value
+      };
+
+      localStorage.setItem('porfolio_profile', JSON.stringify(userProfile));
+      applyProfileData();
+      editorDrawer.classList.add('-translate-x-full');
+      showToast('¡Porfolio actualizado correctamente!', 'success');
+    });
+
+    resetEditorBtn.addEventListener('click', () => {
+      userProfile = { ...defaultProfile };
+      localStorage.removeItem('porfolio_profile');
+      applyProfileData();
+      showToast('Datos restablecidos al estado predeterminado.', 'info');
+    });
+
+    // Mobile Menu Toggle
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    document.querySelectorAll('.mobile-nav-link').forEach(link => {
+      link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+    });
+
+    // Animated Skill Bars & Counters on Scroll
+    const observerOptions = { threshold: 0.3 };
+    const animatedObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          // Animate Skills
+          if (entry.target.id === 'habilidades') {
+            document.querySelectorAll('.skill-bar').forEach(bar => {
+              bar.style.width = bar.getAttribute('data-width');
+            });
+          }
+          // Animate Counters
+          if (entry.target.id === 'sobre-mi') {
+            document.querySelectorAll('[data-counter]').forEach(counter => {
+              const target = +counter.getAttribute('data-counter');
+              let count = 0;
+              const step = Math.ceil(target / 30);
+              const timer = setInterval(() => {
+                count += step;
+                if (count >= target) {
+                  counter.innerText = target;
+                  clearInterval(timer);
+                } else {
+                  counter.innerText = count;
+                }
+              }, 40);
+            });
+          }
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('section').forEach(sec => animatedObserver.observe(sec));
+
+    // On Load Initialization
+    window.addEventListener('load', () => {
+      initTheme();
+      applyProfileData();
+      typeEffect();
+      document.getElementById('year').innerText = new Date().getFullYear();
+    });
+  </script>
+</body>
+</html>
